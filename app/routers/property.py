@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Path
+import uuid
 from typing import Dict, Any
 from ..models.schemas import ImagePair
 
@@ -18,13 +19,12 @@ async def upload_image_pair(
     # but the assignment mentions to "return a compliance_id", so we just make sure
     # we return it explicitly in a JSON response
     
-    # You could also overwrite it with a newly generated one
-    # import uuid
-    # image_pair.compliance_id = str(uuid.uuid4())
+    unique_pair_id = str(uuid.uuid4())
     
     return {
         "message": "Image pair uploaded successfully",
         "property_id": property_id,
         "compliance_id": image_pair.compliance_id,
+        "pair_id": unique_pair_id,
         "data": image_pair.model_dump()
     }
