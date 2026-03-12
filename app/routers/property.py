@@ -25,11 +25,16 @@ def get_property(property_id: str):
 @router.post("/properties", response_model=Property)
 def create_property(property: Property):
     """POST /properties: How we 'send' new data to the server."""
+    # Bug Fix: Check for duplicate IDs
+    for p in properties_db:
+        if p.id == property.id:
+            raise HTTPException(status_code=400, detail="Property ID already exists")
+    
     properties_db.append(property)
     return property
 
 @router.post("/properties/{property_id}/upload-pair")
-def upload_image_pair(property_id: str, image_pair: ImagePair):
+def upload_image_pair(property_id: str, image_pair: ImagePair) -> dict:
     for p in properties_db:
         if p.id == property_id:
             p.images.append(image_pair)

@@ -104,3 +104,7 @@ venv.bak
 # uv
 .uv
 uv.lock
+
+# Project-specific binaries
+bin/
+*.zip
